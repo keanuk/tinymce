@@ -40,12 +40,14 @@ define("tinymce/ui/ColorPicker", [
 		},
 
 		postRender: function() {
-			var self = this, color = self.color(), hsv, hueRootElm, huePointElm, svRootElm, svPointElm;
+			var self = this, color = self.color(), hsv, hueRootElm, huePointElm, svRootElm, svPointElm, alphaRootElm, alphaPointElm;
 
 			hueRootElm = self.getEl('h');
 			huePointElm = self.getEl('hp');
 			svRootElm = self.getEl('sv');
 			svPointElm = self.getEl('svp');
+			alphaRootElm = self.getEl('alpha');
+			alphaPointElm = self.getEl('alphap');
 
 			function getPos(elm, event) {
 				var pos = DomUtils.getPos(elm), x, y;
@@ -64,9 +66,14 @@ define("tinymce/ui/ColorPicker", [
 
 			function updateColor(hsv, hueUpdate) {
 				var hue = (360 - hsv.h) / 360;
+				var alpha = (100 - hsv.alpha) / 100;
 
 				DomUtils.css(huePointElm, {
 					top: (hue * 100) + '%'
+				});
+
+				DomUtils.css(alphaPointElm, {
+					top: (alpha * 100) + '%'
 				});
 
 				if (!hueUpdate) {
@@ -76,8 +83,16 @@ define("tinymce/ui/ColorPicker", [
 					});
 				}
 
+				// if(!alphaUpdate) {
+				// 	DomUtils.css(svPointElm, {
+				// 		left: hsv.s + '%',
+				// 		top: (100 - hsv.v) + '%'
+				// 	});
+				// }
+
 				svRootElm.style.background = new Color({s: 100, v: 100, h: hsv.h}).toHex();
 				self.color().parse({s: hsv.s, v: hsv.v, h: hsv.h});
+				console.log(hsv);
 			}
 
 			function updateSaturationAndValue(e) {
@@ -101,6 +116,13 @@ define("tinymce/ui/ColorPicker", [
 				self.fire('change');
 			}
 
+			function updateAlpha(e) {
+				var pos;
+
+				pos = getPos(alphaRootElm, e);
+				self.fire('change');
+			}
+
 			self._repaint = function() {
 				hsv = color.toHsv();
 				updateColor(hsv);
@@ -116,6 +138,19 @@ define("tinymce/ui/ColorPicker", [
 			self._hdraghelper = new DragHelper(self._id + '-h', {
 				start: updateHue,
 				drag: updateHue
+			});
+
+			self._alphadraghelper = new DragHelper(self._id + '-alpha', {
+				start: updateAlpha,
+				drag: updateAlpha
+			});
+
+			self._hdraghelper = new DragHelper(self._id + '-h', {
+				start: 100
+			});
+
+			self._alphadraghelper = new DragHelper(self._id + '-alpha', {
+				start: 100
 			});
 
 			self._repaint();
@@ -154,14 +189,16 @@ define("tinymce/ui/ColorPicker", [
 		 * @return {String} HTML representing the control.
 		 */
 		renderHtml: function() {
-			var self = this, id = self._id, prefix = self.classPrefix, hueHtml;
+			var self = this, id = self._id, prefix = self.classPrefix, hueHtml, alphaHtml;
 			var stops = '#ff0000,#ff0080,#ff00ff,#8000ff,#0000ff,#0080ff,#00ffff,#00ff80,#00ff00,#80ff00,#ffff00,#ff8000,#ff0000';
+			var alphaStops = '#ffffff, #000000';
 
 			function getOldIeFallbackHtml() {
-				var i, l, html = '', gradientPrefix, stopsList;
+				var i, l, html = '', gradientPrefix, stopsList, alphaStopsList;
 
 				gradientPrefix = 'filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=';
 				stopsList = stops.split(',');
+				alphaStopsList = alphaStops.split(',');
 				for (i = 0, l = stopsList.length - 1; i < l; i++) {
 					html += (
 						'<div class="' + prefix + 'colorpicker-h-chunk" style="' +
@@ -172,6 +209,15 @@ define("tinymce/ui/ColorPicker", [
 					);
 				}
 
+				// html += (
+				// 	'<div class="' + prefix + 'colorpicker-h-chunk" style="' +
+				// 		'height:' + (100) + '%;' +
+				// 		gradientPrefix = alphaStopsList[0] + ',endColorstr=' + alphaStopsList[1] + ');' +
+				// 		'-ms-' + gradientPrefix + alphaStopsList[0] + ',endColorstr=' + alphaStopsList[1] + ')' +
+				// 	'"></div>'
+				// );
+
+
 				return html;
 			}
 
@@ -180,10 +226,21 @@ define("tinymce/ui/ColorPicker", [
 				'background: linear-gradient(to bottom,' + stops + ');'
 			);
 
+			var grayGradientCssText = (
+				'background: -ms-linear-gradient(top,' + alphaStops + ');' + 'background: linear-gradient(to bottom,' + alphaStops + ');'
+			);
+
 			hueHtml = (
 				'<div id="' + id + '-h" class="' + prefix + 'colorpicker-h" style="' + gradientCssText + '">' +
 					getOldIeFallbackHtml() +
 					'<div id="' + id + '-hp" class="' + prefix + 'colorpicker-h-marker"></div>' +
+				'</div>'
+			);
+
+			alphaHtml = (
+				'<div id="' + id + '-alpha" class="' + prefix + 'colorpicker-h" style="' + grayGradientCssText + 'right: -30px;">' +
+					getOldIeFallbackHtml() +
+					'<div id="' + id + '-alphap" style="margin-top: -4px; position: absolute; top: 0; left: -1px; width: 100%; border: 1px solid #333; background: #fff; height: 4px; z-index: 100;"></div>' +
 				'</div>'
 			);
 
@@ -199,6 +256,7 @@ define("tinymce/ui/ColorPicker", [
 						'</div>' +
 					'</div>' +
 					hueHtml +
+					alphaHtml +
 				'</div>'
 			);
 		}

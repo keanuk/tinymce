@@ -19,6 +19,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				r: rgb.r,
 				g: rgb.g,
 				b: rgb.b,
+				alpha: rgb.alpha,
 				hex: color.toHex().substr(1)
 			});
 
@@ -37,7 +38,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				direction: 'row',
 				align: 'stretch',
 				padding: 5,
-				spacing: 10,
+				spacing: 50,
 				items: [
 					{
 						type: 'colorpicker',
@@ -49,6 +50,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								win.find('#r').value(rgb.r);
 								win.find('#g').value(rgb.g);
 								win.find('#b').value(rgb.b);
+								win.find('#alpha').value(rgb.alpha);
 								win.find('#hex').value(this.value().substr(1));
 								showPreview(this.value());
 							}
@@ -81,7 +83,8 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								value = {
 									r: win.find('#r').value(),
 									g: win.find('#g').value(),
-									b: win.find('#b').value()
+									b: win.find('#b').value(),
+									alpha: win.find('#alpha').value()
 								};
 
 								colorPickerCtrl.value(value);
@@ -92,6 +95,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 							{name: 'r', label: 'R', autofocus: 1},
 							{name: 'g', label: 'G'},
 							{name: 'b', label: 'B'},
+							{name: 'alpha', label: 'A', value: '100'},
 							{name: 'hex', label: '#', value: '000000'},
 							{name: 'preview', type: 'container', border: 1}
 						]

@@ -218,6 +218,12 @@ define("tinymce/util/Color", [], function() {
 			g = g < 0 ? 0 : (g > 255 ? 255 : g);
 			b = b < 0 ? 0 : (b > 255 ? 255 : b);
 
+			console.log("R: " + r);
+			console.log("G: " + g);
+			console.log("B: " + b);
+
+			console.log(self);
+
 			return self;
 		}
 
@@ -230,6 +236,6 @@ define("tinymce/util/Color", [], function() {
 		self.toHex = toHex;
 		self.parse = parse;
 	}
-
+	console.log(Color);
 	return Color;
 });
