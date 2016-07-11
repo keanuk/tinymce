@@ -40,7 +40,7 @@ define("tinymce/ui/ColorPicker", [
 		},
 
 		postRender: function() {
-			var self = this, color = self.color(), hsv, hueRootElm, huePointElm, svRootElm, svPointElm, alphaRootElm, alphaPointElm;
+			var self = this, color = self.color(), hsv, hueRootElm, huePointElm, svRootElm, svPointElm, alphaRootElm, alphaPointElm, alpha;
 
 			hueRootElm = self.getEl('h');
 			huePointElm = self.getEl('hp');
@@ -48,6 +48,14 @@ define("tinymce/ui/ColorPicker", [
 			svPointElm = self.getEl('svp');
 			alphaRootElm = self.getEl('alpha');
 			alphaPointElm = self.getEl('alphap');
+
+			console.log(self);
+			console.log(self.getEl('h'));
+			console.log(self.getEl('hp'));
+			console.log(self.getEl('sv'));
+			console.log(self.getEl('svp'));
+			console.log(self.getEl('alpha'));
+			console.log(self.getEl('alphap'));
 
 			function getPos(elm, event) {
 				var pos = DomUtils.getPos(elm), x, y;
@@ -64,16 +72,22 @@ define("tinymce/ui/ColorPicker", [
 				};
 			}
 
+			function updateOpacity(alpha) {
+				DomUtils.css(alphaPointElm, {
+					top: (alpha * 100) + '%'
+				});
+
+				// alphaRootElm.style.background = new Opacity(alpha);
+				self.color().parseAlpha(alpha);
+
+				console.log("updateOpacity");
+			}
+
 			function updateColor(hsv, hueUpdate) {
 				var hue = (360 - hsv.h) / 360;
-				var alpha = (100 - hsv.alpha) / 100;
 
 				DomUtils.css(huePointElm, {
 					top: (hue * 100) + '%'
-				});
-
-				DomUtils.css(alphaPointElm, {
-					top: (alpha * 100) + '%'
 				});
 
 				if (!hueUpdate) {
@@ -83,16 +97,9 @@ define("tinymce/ui/ColorPicker", [
 					});
 				}
 
-				// if(!alphaUpdate) {
-				// 	DomUtils.css(svPointElm, {
-				// 		left: hsv.s + '%',
-				// 		top: (100 - hsv.v) + '%'
-				// 	});
-				// }
-
 				svRootElm.style.background = new Color({s: 100, v: 100, h: hsv.h}).toHex();
+				console.log("Parsing 1");
 				self.color().parse({s: hsv.s, v: hsv.v, h: hsv.h});
-				console.log(hsv);
 			}
 
 			function updateSaturationAndValue(e) {
@@ -120,6 +127,8 @@ define("tinymce/ui/ColorPicker", [
 				var pos;
 
 				pos = getPos(alphaRootElm, e);
+				alpha = pos.y;
+				updateOpacity(alpha);
 				self.fire('change');
 			}
 
@@ -240,7 +249,7 @@ define("tinymce/ui/ColorPicker", [
 			alphaHtml = (
 				'<div id="' + id + '-alpha" class="' + prefix + 'colorpicker-h" style="' + grayGradientCssText + 'right: -30px;">' +
 					getOldIeFallbackHtml() +
-					'<div id="' + id + '-alphap" style="margin-top: -4px; position: absolute; top: 0; left: -1px; width: 100%; border: 1px solid #333; background: #fff; height: 4px; z-index: 100;"></div>' +
+					'<div id="' + id + '-alphap" class="' + prefix + 'colorpicker-h-marker" style="top: 100%"></div>' +
 				'</div>'
 			);
 

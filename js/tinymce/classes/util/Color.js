@@ -187,9 +187,18 @@ define("tinymce/util/Color", [], function() {
 		 * @param {Object/String} value Color value to parse.
 		 * @return {tinymce.util.Color} Current color instance.
 		 */
+		function parseAlpha(value) {
+			if(typeof value == 'number') {
+				console.log("Value is a number: " + value);
+			}
+			else {
+				console.log("Value is not a number: " + value);
+			}
+		}
+
 		function parse(value) {
 			var matches;
-
+			console.log("Parsing 2");
 			if (typeof value == 'object') {
 				if ("r" in value) {
 					r = value.r;
@@ -217,12 +226,6 @@ define("tinymce/util/Color", [], function() {
 			r = r < 0 ? 0 : (r > 255 ? 255 : r);
 			g = g < 0 ? 0 : (g > 255 ? 255 : g);
 			b = b < 0 ? 0 : (b > 255 ? 255 : b);
-
-			console.log("R: " + r);
-			console.log("G: " + g);
-			console.log("B: " + b);
-
-			console.log(self);
 
 			return self;
 		}

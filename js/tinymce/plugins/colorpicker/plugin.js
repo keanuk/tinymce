@@ -95,7 +95,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 							{name: 'r', label: 'R', autofocus: 1},
 							{name: 'g', label: 'G'},
 							{name: 'b', label: 'B'},
-							{name: 'alpha', label: 'A', value: '100'},
+							{name: 'alpha', label: 'A', value: '1'},
 							{name: 'hex', label: '#', value: '000000'},
 							{name: 'preview', type: 'container', border: 1}
 						]
