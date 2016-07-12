@@ -115,6 +115,8 @@ define("tinymce/ui/DragHelper", [
 			e.deltaY = e.screenY - startY;
 
 			e.preventDefault();
+
+			// Throws error message for some reason
 			settings.drag(e);
 		};
 

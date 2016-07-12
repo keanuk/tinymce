@@ -29,10 +29,12 @@ define("tinymce/util/Color", [], function() {
 	 * @param {String} value Optional initial value to parse.
 	 */
 	function Color(value) {
-		var self = this, r = 0, g = 0, b = 0;
+		var self = this, r = 0, g = 0, b = 0, alpha = 0;
 
 		function rgb2hsv(r, g, b) {
 			var h, s, v, d, minRGB, maxRGB;
+
+			console.log("rgb2hsv");
 
 			h = 0;
 			s = 0;
@@ -70,6 +72,8 @@ define("tinymce/util/Color", [], function() {
 
 		function hsvToRgb(hue, saturation, brightness) {
 			var side, chroma, x, match;
+
+			console.log("hsvToRgb");
 
 			hue = (parseInt(hue, 10) || 0) % 360;
 			saturation = parseInt(saturation, 10) / 100;
@@ -156,6 +160,7 @@ define("tinymce/util/Color", [], function() {
 		 * @return {Object} Object with r, g, b fields.
 		 */
 		function toRgb() {
+			console.log("toRgb");
 			return {
 				r: r,
 				g: g,
@@ -187,9 +192,17 @@ define("tinymce/util/Color", [], function() {
 		 * @param {Object/String} value Color value to parse.
 		 * @return {tinymce.util.Color} Current color instance.
 		 */
+
+		 function toAlpha() {
+			 console.log("Returning alpha: " + alpha);
+			 return alpha;
+		 }
+
+
 		function parseAlpha(value) {
 			if(typeof value == 'number') {
 				console.log("Value is a number: " + value);
+				alpha = value;
 			}
 			else {
 				console.log("Value is not a number: " + value);
@@ -198,16 +211,25 @@ define("tinymce/util/Color", [], function() {
 
 		function parse(value) {
 			var matches;
-			console.log("Parsing 2");
+			console.log("Parsing colors");
 			if (typeof value == 'object') {
+				console.log("Parsing an object");
 				if ("r" in value) {
+					console.log("Parsing RGB");
 					r = value.r;
 					g = value.g;
 					b = value.b;
 				} else if ("v" in value) {
+					console.log("Parsing HSV");
 					hsvToRgb(value.h, value.s, value.v);
 				}
-			} else {
+			}
+			else if (typeof value == 'number') {
+				console.log("Parsing a Number");
+				alpha = value;
+			}
+			else {
+				console.log("Parsing something else");
 				if ((matches = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)[^\)]*\)/gi.exec(value))) {
 					r = parseInt(matches[1], 10);
 					g = parseInt(matches[2], 10);
@@ -238,7 +260,9 @@ define("tinymce/util/Color", [], function() {
 		self.toHsv = toHsv;
 		self.toHex = toHex;
 		self.parse = parse;
+
+		self.toAlpha = toAlpha;
+		console.log(self);
 	}
-	console.log(Color);
 	return Color;
 });
