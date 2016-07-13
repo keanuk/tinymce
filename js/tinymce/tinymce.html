@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src=tinymce.dev.js></script>
+	<script>
+		// Get the value of a certain parameter contained in the URL
+        function getUrlParameter(name) {
+
+            // Get URL
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+
+            // Find parameter by name and return its value
+            var regEx = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i");
+            var results = regEx.exec(url);
+            if (!results)
+                return null;
+            if (!results[2])
+                return null;
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+		var fontFilePath = getUrlParameter("fontFile");
+		var fonts = "";
+		if (fontFilePath) {
+			// Prepare HTTP GET request
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function () {
+				if (xmlHttp.readyState == xmlHttp.DONE) {
+					// Get file content from result
+					fonts = xmlHttp.responseText;
+				}
+			}
+			// Send HTTP GET request
+			xmlHttp.open("GET", fontFilePath, false);
+			xmlHttp.send();
+		}
+
+	    var lang = "en";
+		var content = "Text";
+        var newLang = getUrlParameter("lang");
+		var newContent = getUrlParameter("content");
+        if(newLang)
+            lang = newLang;
+		if(newContent)
+            content = newContent;
+		else {
+			var textFilePath = getUrlParameter("textFile");
+			var newText = "";
+			if (textFilePath) {
+				// Prepare HTTP GET request
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.onreadystatechange = function () {
+					if (xmlHttp.readyState == xmlHttp.DONE) {
+						// Get file content from result
+						newText = xmlHttp.responseText;
+					}
+				}
+				// Send HTTP GET request
+				xmlHttp.open("GET", textFilePath, false);
+				xmlHttp.send();
+				content = newText;
+			}
+		}
+	</script>
+	<script>tinymce.init({
+	selector:'textarea',
+	language: lang,
+	auto_focus: 'editor1',
+	min_height : 312,
+	resize: "both",
+	statusbar: false,
+	plugins: 'save textcolor colorpicker gui_animate',
+    toolbar: ['undo redo | forecolor backcolor | bold italic underline strikethrough | textborderCP textshadowCP', 'fontsizeselect fontselect gui_animate | alignleft aligncenter alignright'],
+	//toolbar: ['undo redo | forecolor backcolor | bold italic underline strikethrough', 'fontsizeselect fontselect gui_animate | alignleft aligncenter alignright'],
+	gui_animate: {toolbar_text:true,css:{exist:false,external:'plugins/gui_animate/assets/css/animate.min.css'}},
+	menubar: '',
+	save_enablewhendirty: false,
+	font_formats : fonts,
+	entity_encoding: "raw",
+	setup: function(ed) {
+		ed.on('init', function(e) {
+			window.history.pushState("object or string", "Title", "/");
+			tinyMCE.activeEditor.setContent(content);
+			tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
+			tinyMCE.activeEditor.selection.collapse(false);
+		});
+
+		ed.on('change', function(e) {
+			location.hash = 'editor1=' + ed.getContent();
+		});
+
+		ed.on('keyup', function(e) {
+			location.hash = 'editor1=' + ed.getContent();
+		});
+
+		ed.on('keydown', function(e) {
+			if (ed.getContent().length > 10000){
+				var allowed_keys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+				var key = e.keyCode;
+				if (allowed_keys.indexOf(key) != -1) {
+					return;
+				}
+				else
+				{
+					e.preventDefault();
+					e.stopPropagation();
+					return false;
+				}
+			}
+		});
+	}
+	});
+	</script>
+	<title>Title</title>
+</head>
+<body>
+	<form>
+		<textarea name=editor1 id=editor1 rows=1 cols=1>
+			<p>Sample</p>
+		</textarea>
+	</form>
+</body>
+</html>

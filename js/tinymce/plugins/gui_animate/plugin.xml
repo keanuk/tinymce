@@ -1,0 +1,17 @@
+<?xml version="1.0"?> 
+<widget xmlns="http://www.w3.org/ns/widgets">
+	<name>GUI - Animate CSS</name>
+	<license>Commercial</license>
+	<version>1.16.02.28</version>
+	<author>Jasman</author>
+	<authorURL>http://ihsana.com/jasman.z</authorURL>
+	<description>Galau UI - Animate CSS is a TinyMCE plugin adapter Animate.CSS into TinyMCE. By using this, you do not need to memorize or write code to create animations on your web content, such as animated bounce, flash, pulse, rubberBand, shake, swing, tada, and others</description>
+	<tags>plugin, tinymce, animate, css</tags>
+	<preferences>
+		<preference name="id" value="gui_animate"></preference>
+		<preference name="framework" value="animate_css"></preference>
+		<preference name="path" value="add-ons/gui_animate/plugin.min.js"></preference>
+		<preference name="button" value="gui_animate"></preference>
+        <preference name="gui_animate" value="{toolbar_text:true,css:{exist:true,external:gui_animate_css_url}}"></preference>
+	</preferences>
+</widget>
