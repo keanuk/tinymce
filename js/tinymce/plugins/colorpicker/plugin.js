@@ -14,20 +14,25 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 	function colorPickerCallback(callback, value) {
 		function setColor(value) {
 			var color = new tinymce.util.Color(value), rgb = color.toRgb();
+			console.log("Plugin");
+			console.log(color);
+			console.log(color.toRgb());
+			console.log(color.toAlpha());
 
 			win.fromJSON({
 				r: rgb.r,
 				g: rgb.g,
 				b: rgb.b,
-				alpha: color.toAlpha().alpha,
+				alpha: color.toAlpha(),
 				hex: color.toHex().substr(1)
 			});
 
-			showPreview(color.toHex());
+			// showPreview(color.toHex());
+			showPreview(rgb.r, rgb.g, rgb.b, color.toAlpha());
 		}
 
-		function showPreview(hexColor) {
-			win.find('#preview')[0].getEl().style.background = hexColor;
+		function showPreview(r, g, b, a) {
+			win.find('#preview')[0].getEl().style.background = "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 		}
 
 		var win = editor.windowManager.open({
@@ -52,7 +57,8 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								win.find('#b').value(rgb.b);
 								win.find('#alpha').value(this.alphaVal());
 								win.find('#hex').value(this.value().substr(1));
-								showPreview(this.value());
+								// showPreview(this.value());
+								showPreview(rgb.r, rgb.g, rgb.b, this.alphaVal());
 							}
 						}
 					},
@@ -66,36 +72,36 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 							value: '0',
 							flex: 1,
 							spellcheck: false,
-							// onchange: function() {
-							// 	var colorPickerCtrl = win.find('colorpicker')[0];
-							// 	var name, value;
-							//
-							// 	name = this.name();
-							// 	value = this.value();
-							//
-							// 	if (name == "hex") {
-							// 		value = '#' + value;
-							// 		setColor(value);
-							// 		colorPickerCtrl.value(value);
-							// 		return;
-							// 	}
-							//
-							// 	value = {
-							// 		r: win.find('#r').value(),
-							// 		g: win.find('#g').value(),
-							// 		b: win.find('#b').value(),
-							// 		alpha: win.find('#alpha').value()
-							// 	};
-							//
-							// 	colorPickerCtrl.value(value);
-							// 	setColor(value);
-							// }
+							onchange: function() {
+								var colorPickerCtrl = win.find('colorpicker')[0];
+								var name, value;
+
+								name = this.name();
+								value = this.value();
+
+								if (name == "hex") {
+									value = '#' + value;
+									setColor(value);
+									colorPickerCtrl.value(value);
+									return;
+								}
+
+								value = {
+									r: win.find('#r').value(),
+									g: win.find('#g').value(),
+									b: win.find('#b').value(),
+									alpha: win.find('#alpha').value()
+								};
+
+								colorPickerCtrl.value(value);
+								setColor(value);
+							}
 						},
 						items: [
 							{name: 'r', label: 'R', autofocus: 1},
 							{name: 'g', label: 'G'},
 							{name: 'b', label: 'B'},
-							{name: 'alpha', label: 'A', value: '100'},
+							{name: 'alpha', label: 'A', value: '1'},
 							{name: 'hex', label: '#', value: '000000'},
 							{name: 'preview', type: 'container', border: 1}
 						]

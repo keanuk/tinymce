@@ -49,14 +49,6 @@ define("tinymce/ui/ColorPicker", [
 			alphaRootElm = self.getEl('alpha');
 			alphaPointElm = self.getEl('alphap');
 
-			console.log(self);
-			console.log(self.getEl('h'));
-			console.log(self.getEl('hp'));
-			console.log(self.getEl('sv'));
-			console.log(self.getEl('svp'));
-			console.log(self.getEl('alpha'));
-			console.log(self.getEl('alphap'));
-
 			function getPos(elm, event) {
 				var pos = DomUtils.getPos(elm), x, y;
 
@@ -72,33 +64,11 @@ define("tinymce/ui/ColorPicker", [
 				};
 			}
 
-			// function toAlpha() {
-			// 	console.log("Returning alpha: " + alpha);
-			// 	return alpha;
-			// }
-
-			// function parseAlpha(value) {
-			// 	if(typeof value == 'number') {
-			// 		console.log("Value is a number: " + value);
-			// 		alpha = value;
-			// 	}
-			// 	else {
-			// 		console.log("Value is not a number: " + value);
-			// 	}
-			// }
-
 			function updateOpacity(alpha) {
 				DomUtils.css(alphaPointElm, {
 					top: (alpha * 100) + '%'
 				});
-
-				// alphaRootElm.style.background = new Opacity(alpha);
-				// self.color().parseAlpha(alpha);
 				self.color().parseAlpha(alpha);
-
-				// self.toAlpha = toAlpha;
-
-				console.log("updateOpacity");
 			}
 
 			function updateColor(hsv, hueUpdate) {
@@ -116,7 +86,6 @@ define("tinymce/ui/ColorPicker", [
 				}
 
 				svRootElm.style.background = new Color({s: 100, v: 100, h: hsv.h}).toHex();
-				console.log("Calling color parse");
 				self.color().parse({s: hsv.s, v: hsv.v, h: hsv.h});
 			}
 
@@ -239,16 +208,6 @@ define("tinymce/ui/ColorPicker", [
 						'"></div>'
 					);
 				}
-
-				// html += (
-				// 	'<div class="' + prefix + 'colorpicker-h-chunk" style="' +
-				// 		'height:' + (100) + '%;' +
-				// 		gradientPrefix = alphaStopsList[0] + ',endColorstr=' + alphaStopsList[1] + ');' +
-				// 		'-ms-' + gradientPrefix + alphaStopsList[0] + ',endColorstr=' + alphaStopsList[1] + ')' +
-				// 	'"></div>'
-				// );
-
-
 				return html;
 			}
 
