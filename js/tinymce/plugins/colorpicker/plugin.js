@@ -19,7 +19,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				r: rgb.r,
 				g: rgb.g,
 				b: rgb.b,
-				alpha: rgb.alpha,
+				alpha: color.toAlpha().alpha,
 				hex: color.toHex().substr(1)
 			});
 
@@ -50,7 +50,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								win.find('#r').value(rgb.r);
 								win.find('#g').value(rgb.g);
 								win.find('#b').value(rgb.b);
-								win.find('#alpha').value(rgb.alpha);
+								win.find('#alpha').value(this.alphaVal());
 								win.find('#hex').value(this.value().substr(1));
 								showPreview(this.value());
 							}
@@ -66,36 +66,36 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 							value: '0',
 							flex: 1,
 							spellcheck: false,
-							onchange: function() {
-								var colorPickerCtrl = win.find('colorpicker')[0];
-								var name, value;
-
-								name = this.name();
-								value = this.value();
-
-								if (name == "hex") {
-									value = '#' + value;
-									setColor(value);
-									colorPickerCtrl.value(value);
-									return;
-								}
-
-								value = {
-									r: win.find('#r').value(),
-									g: win.find('#g').value(),
-									b: win.find('#b').value(),
-									alpha: win.find('#alpha').value()
-								};
-
-								colorPickerCtrl.value(value);
-								setColor(value);
-							}
+							// onchange: function() {
+							// 	var colorPickerCtrl = win.find('colorpicker')[0];
+							// 	var name, value;
+							//
+							// 	name = this.name();
+							// 	value = this.value();
+							//
+							// 	if (name == "hex") {
+							// 		value = '#' + value;
+							// 		setColor(value);
+							// 		colorPickerCtrl.value(value);
+							// 		return;
+							// 	}
+							//
+							// 	value = {
+							// 		r: win.find('#r').value(),
+							// 		g: win.find('#g').value(),
+							// 		b: win.find('#b').value(),
+							// 		alpha: win.find('#alpha').value()
+							// 	};
+							//
+							// 	colorPickerCtrl.value(value);
+							// 	setColor(value);
+							// }
 						},
 						items: [
 							{name: 'r', label: 'R', autofocus: 1},
 							{name: 'g', label: 'G'},
 							{name: 'b', label: 'B'},
-							{name: 'alpha', label: 'A', value: '1'},
+							{name: 'alpha', label: 'A', value: '100'},
 							{name: 'hex', label: '#', value: '000000'},
 							{name: 'preview', type: 'container', border: 1}
 						]

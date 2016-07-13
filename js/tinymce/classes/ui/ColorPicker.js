@@ -94,7 +94,7 @@ define("tinymce/ui/ColorPicker", [
 
 				// alphaRootElm.style.background = new Opacity(alpha);
 				// self.color().parseAlpha(alpha);
-				self.color().parse(alpha);
+				self.color().parseAlpha(alpha);
 
 				// self.toAlpha = toAlpha;
 

@@ -29,7 +29,7 @@ define("tinymce/util/Color", [], function() {
 	 * @param {String} value Optional initial value to parse.
 	 */
 	function Color(value) {
-		var self = this, r = 0, g = 0, b = 0, alpha = 0;
+		var self = this, r = 0, g = 0, b = 0, alpha = 100;
 
 		function rgb2hsv(r, g, b) {
 			var h, s, v, d, minRGB, maxRGB;
@@ -200,13 +200,16 @@ define("tinymce/util/Color", [], function() {
 
 
 		function parseAlpha(value) {
+			console.log("Parsing alpha");
 			if(typeof value == 'number') {
 				console.log("Value is a number: " + value);
+				value = round(value * 100);
 				alpha = value;
 			}
 			else {
 				console.log("Value is not a number: " + value);
 			}
+			return self;
 		}
 
 		function parse(value) {
@@ -223,12 +226,7 @@ define("tinymce/util/Color", [], function() {
 					console.log("Parsing HSV");
 					hsvToRgb(value.h, value.s, value.v);
 				}
-			}
-			else if (typeof value == 'number') {
-				console.log("Parsing a Number");
-				alpha = value;
-			}
-			else {
+			}	else {
 				console.log("Parsing something else");
 				if ((matches = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)[^\)]*\)/gi.exec(value))) {
 					r = parseInt(matches[1], 10);
@@ -262,6 +260,7 @@ define("tinymce/util/Color", [], function() {
 		self.parse = parse;
 
 		self.toAlpha = toAlpha;
+		self.parseAlpha = parseAlpha;
 		console.log(self);
 	}
 	return Color;
