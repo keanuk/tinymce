@@ -191,14 +191,13 @@ define("tinymce/ui/ColorPicker", [
 		renderHtml: function() {
 			var self = this, id = self._id, prefix = self.classPrefix, hueHtml, alphaHtml;
 			var stops = '#ff0000,#ff0080,#ff00ff,#8000ff,#0000ff,#0080ff,#00ffff,#00ff80,#00ff00,#80ff00,#ffff00,#ff8000,#ff0000';
-			var alphaStops = '#ffffff, #000000';
+			var alphaStops = 'rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)';
 
 			function getOldIeFallbackHtml() {
 				var i, l, html = '', gradientPrefix, stopsList, alphaStopsList;
 
 				gradientPrefix = 'filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=';
 				stopsList = stops.split(',');
-				alphaStopsList = alphaStops.split(',');
 				for (i = 0, l = stopsList.length - 1; i < l; i++) {
 					html += (
 						'<div class="' + prefix + 'colorpicker-h-chunk" style="' +
@@ -217,7 +216,8 @@ define("tinymce/ui/ColorPicker", [
 			);
 
 			var grayGradientCssText = (
-				'background: -ms-linear-gradient(top,' + alphaStops + ');' + 'background: linear-gradient(to bottom,' + alphaStops + ');'
+				'background: -ms-linear-gradient(top,' + alphaStops + ');' +
+				'background: linear-gradient(to bottom,' + alphaStops + '), url(' + 'skins/lightgray/img/chesspattern.png' + ');'
 			);
 
 			hueHtml = (

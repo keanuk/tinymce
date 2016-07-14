@@ -22,12 +22,11 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				alpha: color.toAlpha(),
 				hex: color.toHex().substr(1)
 			});
-
 			showPreview(rgb.r, rgb.g, rgb.b, color.toAlpha());
 		}
 
 		function showPreview(r, g, b, a) {
-			win.find('#preview')[0].getEl().style.background = "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+			win.find('#preview')[0].getEl().style.background = "linear-gradient(rgba(" + r + ", " + g + ", " + b + ", " + a + "), rgba(" + r + ", " + g + ", " + b + ", " + a + ")), url(" + "skins/lightgray/img/chesspattern.png" + ")";
 		}
 
 		var win = editor.windowManager.open({
