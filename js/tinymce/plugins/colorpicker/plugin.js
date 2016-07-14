@@ -14,10 +14,6 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 	function colorPickerCallback(callback, value) {
 		function setColor(value) {
 			var color = new tinymce.util.Color(value), rgb = color.toRgb();
-			console.log("Plugin");
-			console.log(color);
-			console.log(color.toRgb());
-			console.log(color.toAlpha());
 
 			win.fromJSON({
 				r: rgb.r,
