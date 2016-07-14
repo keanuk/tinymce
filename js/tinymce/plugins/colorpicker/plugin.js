@@ -27,7 +27,6 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				hex: color.toHex().substr(1)
 			});
 
-			// showPreview(color.toHex());
 			showPreview(rgb.r, rgb.g, rgb.b, color.toAlpha());
 		}
 
@@ -57,7 +56,6 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								win.find('#b').value(rgb.b);
 								win.find('#alpha').value(this.alphaVal());
 								win.find('#hex').value(this.value().substr(1));
-								// showPreview(this.value());
 								showPreview(rgb.r, rgb.g, rgb.b, this.alphaVal());
 							}
 						}
@@ -109,7 +107,7 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				]
 			},
 			onSubmit: function() {
-				callback('#' + this.toJSON().hex);
+				callback('rgba(' + this.toJSON().r + ', ' + this.toJSON().g + ', ' + this.toJSON().b + ', ' + this.toJSON().alpha + ')');
 			}
 		});
 
