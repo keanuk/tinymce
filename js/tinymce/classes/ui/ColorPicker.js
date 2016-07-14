@@ -217,7 +217,8 @@ define("tinymce/ui/ColorPicker", [
 
 			var grayGradientCssText = (
 				'background: -ms-linear-gradient(top,' + alphaStops + ');' +
-				'background: linear-gradient(to bottom,' + alphaStops + '), url(' + 'skins/lightgray/img/chesspattern.png' + ');'
+				'background: linear-gradient(to bottom,' + alphaStops + '), url(' + 'skins/lightgray/img/chesspattern.png' + ');' +
+				'background-size: cover, 8px 8px;'
 			);
 
 			hueHtml = (

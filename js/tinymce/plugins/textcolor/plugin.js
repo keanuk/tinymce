@@ -203,7 +203,9 @@ tinymce.PluginManager.add('textcolor', function(editor) {
 		}
 
 		function setDivColor(div, value) {
-			div.style.background = value;
+			console.log("Adding custom color: " + value);
+			div.style.background = 'linear-gradient(' + value + ', ' + value + '), url(' + 'skins/lightgray/img/chesspattern.png' + ')';
+			div.style.backgroundSize = '8px 8px';
 			div.setAttribute('data-mce-color', value);
 		}
 
