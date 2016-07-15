@@ -68,7 +68,7 @@ define("tinymce/ui/ColorPicker", [
 				DomUtils.css(alphaPointElm, {
 					top: (alpha * 100) + '%'
 				});
-				self.color().parseAlpha(alpha);
+				self.color().parse({alpha: alpha});
 			}
 
 			function updateColor(hsv, hueUpdate) {
@@ -156,10 +156,6 @@ define("tinymce/ui/ColorPicker", [
 			return this.color().toRgb();
 		},
 
-		alphaVal: function() {
-			return this.color().toAlpha();
-		},
-
 		value: function(value) {
 			var self = this;
 
@@ -194,7 +190,7 @@ define("tinymce/ui/ColorPicker", [
 			var alphaStops = 'rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)';
 
 			function getOldIeFallbackHtml() {
-				var i, l, html = '', gradientPrefix, stopsList, alphaStopsList;
+				var i, l, html = '', gradientPrefix, stopsList;
 
 				gradientPrefix = 'filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=';
 				stopsList = stops.split(',');
@@ -218,7 +214,7 @@ define("tinymce/ui/ColorPicker", [
 			var grayGradientCssText = (
 				'background: -ms-linear-gradient(top,' + alphaStops + ');' +
 				'background: linear-gradient(to bottom,' + alphaStops + '), url(' + 'skins/lightgray/img/chesspattern.png' + ');' +
-				'background-size: cover, 8px 8px;'
+				'background-size: cover, 9px 9px;'
 			);
 
 			hueHtml = (

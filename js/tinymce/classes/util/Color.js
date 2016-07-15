@@ -159,7 +159,8 @@ define("tinymce/util/Color", [], function() {
 			return {
 				r: r,
 				g: g,
-				b: b
+				b: b,
+				alpha: alpha
 			};
 		}
 
@@ -188,19 +189,6 @@ define("tinymce/util/Color", [], function() {
 		 * @return {tinymce.util.Color} Current color instance.
 		 */
 
-		 function toAlpha() {
-			 return alpha;
-		 }
-
-
-		function parseAlpha(value) {
-			if(typeof value == 'number') {
-				value = round(value * 100)/100;
-				alpha = value;
-			}
-			return self;
-		}
-
 		function parse(value) {
 			var matches;
 			if (typeof value == 'object') {
@@ -208,8 +196,12 @@ define("tinymce/util/Color", [], function() {
 					r = value.r;
 					g = value.g;
 					b = value.b;
+					alpha = value.alpha;
 				} else if ("v" in value) {
 					hsvToRgb(value.h, value.s, value.v);
+				}
+				else if("alpha" in value) {
+					alpha = value.alpha;
 				}
 			}	else {
 				if ((matches = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)[^\)]*\)/gi.exec(value))) {
@@ -230,6 +222,8 @@ define("tinymce/util/Color", [], function() {
 			r = r < 0 ? 0 : (r > 255 ? 255 : r);
 			g = g < 0 ? 0 : (g > 255 ? 255 : g);
 			b = b < 0 ? 0 : (b > 255 ? 255 : b);
+			alpha = round(alpha * 100) / 100;
+			alpha = alpha < 0 ? 0 : (alpha > 1 ? 1 : alpha);
 
 			return self;
 		}
@@ -242,9 +236,6 @@ define("tinymce/util/Color", [], function() {
 		self.toHsv = toHsv;
 		self.toHex = toHex;
 		self.parse = parse;
-
-		self.toAlpha = toAlpha;
-		self.parseAlpha = parseAlpha;
 	}
 	return Color;
 });

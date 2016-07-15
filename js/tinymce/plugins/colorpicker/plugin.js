@@ -19,15 +19,15 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 				r: rgb.r,
 				g: rgb.g,
 				b: rgb.b,
-				alpha: color.toAlpha(),
+				alpha: rgb.alpha,
 				hex: color.toHex().substr(1)
 			});
-			showPreview(rgb.r, rgb.g, rgb.b, color.toAlpha());
+			showPreview(rgb.r, rgb.g, rgb.b, rgb.alpha);
 		}
 
 		function showPreview(r, g, b, a) {
 			win.find('#preview')[0].getEl().style.background = "linear-gradient(rgba(" + r + ", " + g + ", " + b + ", " + a + "), rgba(" + r + ", " + g + ", " + b + ", " + a + ")), url(" + "skins/lightgray/img/chesspattern.png" + ")";
-			win.find('#preview')[0].getEl().style.backgroundSize = '8px 8px';
+			win.find('#preview')[0].getEl().style.backgroundSize = '9px 9px';
 		}
 
 		var win = editor.windowManager.open({
@@ -50,9 +50,9 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 								win.find('#r').value(rgb.r);
 								win.find('#g').value(rgb.g);
 								win.find('#b').value(rgb.b);
-								win.find('#alpha').value(this.alphaVal());
+								win.find('#alpha').value(rgb.alpha);
 								win.find('#hex').value(this.value().substr(1));
-								showPreview(rgb.r, rgb.g, rgb.b, this.alphaVal());
+								showPreview(rgb.r, rgb.g, rgb.b, rgb.alpha);
 							}
 						}
 					},
