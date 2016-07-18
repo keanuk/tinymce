@@ -26,7 +26,8 @@ tinymce.PluginManager.add('colorpicker', function(editor) {
 		}
 
 		function showPreview(r, g, b, a) {
-			win.find('#preview')[0].getEl().style.background = "linear-gradient(rgba(" + r + ", " + g + ", " + b + ", " + a + "), rgba(" + r + ", " + g + ", " + b + ", " + a + ")), url(" + "skins/lightgray/img/chesspattern.png" + ")";
+      win.find('#preview')[0].getEl().style.background = "linear-gradient(rgba(" + r + ", " + g + ", " + b + ", " + a +
+      "), rgba(" + r + ", " + g + ", " + b + ", " + a + ")), url(" + "skins/lightgray/img/chesspattern.png" + ")";
 			win.find('#preview')[0].getEl().style.backgroundSize = '9px 9px';
 		}
 

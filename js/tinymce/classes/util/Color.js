@@ -199,11 +199,10 @@ define("tinymce/util/Color", [], function() {
 					alpha = value.alpha;
 				} else if ("v" in value) {
 					hsvToRgb(value.h, value.s, value.v);
-				}
-				else if("alpha" in value) {
+				} else if ("alpha" in value) {
 					alpha = value.alpha;
 				}
-			}	else {
+			} else {
 				if ((matches = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)[^\)]*\)/gi.exec(value))) {
 					r = parseInt(matches[1], 10);
 					g = parseInt(matches[2], 10);

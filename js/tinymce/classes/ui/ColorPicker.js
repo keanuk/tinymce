@@ -15,6 +15,7 @@
  * @class tinymce.ui.ColorPicker
  * @extends tinymce.ui.Widget
  */
+
 define("tinymce/ui/ColorPicker", [
 	"tinymce/ui/Widget",
 	"tinymce/ui/DragHelper",
