@@ -3,7 +3,12 @@
 <head>
 	<script src=tinymce.dev.js></script>
 	<script>
-		document.alphaBase = document.URL.replace(/\\/g,'/').replace(/\/[^\/]*$/, '') + '/';
+		// Get URL
+    function getURL() {
+        return location.protocol + '//' + location.host + location.pathname
+    }
+    // Set path for alpha slider in color picker
+    document.alphaBase = getURL().replace(/\\/g, '/').replace(/\/[^\/]*$/, '') + '/';
 
 		// Get the value of a certain parameter contained in the URL
         function getUrlParameter(name) {
